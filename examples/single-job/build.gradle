@@ -1,0 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.0'
+    }
+}
+
+apply plugin: 'base' // not needed for plugin, but provides the 'clean' task
+apply plugin: 'jenkins-jobdsl'
+
+jenkinsJobDsl {
+    jobConfigs {
+        from file('project.dsl.groovy')
+    }
+}

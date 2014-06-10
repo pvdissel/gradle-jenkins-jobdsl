@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.1'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'jenkins-jobdsl'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy:2.3.0'
+    compile 'org.jenkins-ci.plugins:job-dsl-core:1.22'
+
+    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
+        exclude module: 'groovy-all'
+    }
+}
+
+jenkinsJobDsl {
+    jobConfigs {
+        from fileTree(dir: 'jobs')
+    }
+    classpath {
+        from sourceSets.main.groovy
+    }
+}

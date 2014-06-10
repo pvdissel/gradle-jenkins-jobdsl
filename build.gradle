@@ -1,0 +1,21 @@
+buildscript {
+    apply from: file('gradle/buildscript.gradle'), to: buildscript
+}
+apply from: script('license')
+
+description 'Jenkins JobDSL plugin for Gradle'
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    group 'nl.ikoodi.gradle.plugin'
+}
+
+File script(String name) {
+    project.file("gradle/${name}.gradle")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}

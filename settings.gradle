@@ -1,0 +1,9 @@
+include 'plugin'
+
+rootProject.name = 'gradle-jenkins-jobdsl'
+rootProject.children.each { childProject ->
+    String fileBaseName = childProject.name
+    childProject.buildFileName = "${fileBaseName}.gradle"
+    assert childProject.projectDir.isDirectory()
+    assert childProject.buildFile.isFile()
+}
