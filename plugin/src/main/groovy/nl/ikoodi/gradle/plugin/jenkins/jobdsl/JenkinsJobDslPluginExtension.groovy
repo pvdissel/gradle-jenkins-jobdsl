@@ -22,12 +22,12 @@ import org.gradle.util.ConfigureUtil
 class JenkinsJobDslPluginExtension {
     public static final String DEFAULT_DSL_FILE_PATTERN = '**/*.dsl.groovy'
     private final Project project
-    private String baseOutputPath = "${project.buildDir}/jobDsl"
+    private String baseOutputPath = new File(project.buildDir, 'jobDsl').absolutePath
     final CopySpec jobConfigs
     final CopySpec classpath
     String dslFilePattern = DEFAULT_DSL_FILE_PATTERN
-    String workspaceBuildPath = "${baseOutputPath}/workspace"
-    String generatedOutputPath = "${baseOutputPath}/generated"
+    String workspaceBuildPath = new File(baseOutputPath, 'workspace').absolutePath
+    String generatedOutputPath = new File(baseOutputPath, 'generated').absolutePath
 
     JenkinsJobDslPluginExtension(Project project) {
         this.project = project
