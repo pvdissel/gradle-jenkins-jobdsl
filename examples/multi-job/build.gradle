@@ -1,10 +1,11 @@
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
     }
 
     dependencies {
-        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.1'
+        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.2'
     }
 }
 
