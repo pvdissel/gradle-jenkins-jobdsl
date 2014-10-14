@@ -48,6 +48,9 @@ class GradleFileJobManagement extends FileJobManagement {
 
     private void writeConfig(String jobName, String config) {
         validateUpdateArgs(jobName, config);
-        new File(outputDirectory, jobName + ext).write(config)
+        def jobPathName = new File(outputDirectory, jobName + ext)
+        jobPathName.getParentFile()?.mkdirs()
+
+        jobPathName.write(config)
     }
 }
