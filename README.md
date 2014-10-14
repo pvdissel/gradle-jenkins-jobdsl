@@ -32,6 +32,7 @@ Adding the plugin
 
 Add the following lines to your build to use the `gradle-jenkins-jobdsl` plugin.
 
+For all Gradle versions:
 ```groovy
 buildscript {
     repositories {
@@ -43,6 +44,13 @@ buildscript {
 }
 
 apply plugin: 'jenkins-jobdsl'
+```
+
+For Gradle 2.1+:
+```groovy
+plugins {
+    id "nl.ikoodi.jenkins.jobdsl" version "<version>"
+}
 ```
 
 Using the plugin in Gradle
