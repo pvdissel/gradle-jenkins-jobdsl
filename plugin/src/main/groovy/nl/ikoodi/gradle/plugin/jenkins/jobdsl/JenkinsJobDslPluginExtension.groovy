@@ -20,26 +20,21 @@ import org.gradle.api.file.CopySpec
 import org.gradle.util.ConfigureUtil
 
 class JenkinsJobDslPluginExtension {
-    public static final String DEFAULT_DSL_FILE_PATTERN = '**/*.dsl.groovy'
     private final Project project
     private String baseOutputPath = new File(project.buildDir, 'jobDsl').absolutePath
     final CopySpec jobConfigs
     final CopySpec classpath
-    String dslFilePattern = DEFAULT_DSL_FILE_PATTERN
     String workspaceBuildPath = new File(baseOutputPath, 'workspace').absolutePath
     String generatedOutputPath = new File(baseOutputPath, 'generated').absolutePath
 
     JenkinsJobDslPluginExtension(Project project) {
         this.project = project
-        this.jobConfigs = project.copySpec {
-            include DEFAULT_DSL_FILE_PATTERN
-        }
+        this.jobConfigs = project.copySpec {}
         this.classpath = project.copySpec {}
     }
 
     /**
      * Configures the jobConfigs copy spec.
-     * Defaults to include  {@literal **\/*.dsl.groovy}
      * @param closure the configuration closure
      */
     void jobConfigs(Closure closure) {

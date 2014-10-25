@@ -17,8 +17,12 @@ package nl.ikoodi.gradle.plugin.jenkins.jobdsl.tasks
 
 import nl.ikoodi.gradle.plugin.jenkins.jobdsl.JenkinsJobDslPluginExtension
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 
+import static nl.ikoodi.gradle.plugin.jenkins.jobdsl.CommonUtil.getAllFilesFromCopySpec
 import static nl.ikoodi.gradle.plugin.jenkins.jobdsl.JenkinsJobDslPlugin.*
 
 class PrepareWorkspaceTask extends DefaultTask {
@@ -27,17 +31,44 @@ class PrepareWorkspaceTask extends DefaultTask {
     String description = 'Prepare a single directory with all resources required to generate Jenkins jobs from the JobDSL scripts'
 
     @TaskAction
-    def prepareWorkspace() {
+    def prepareWorkspace(IncrementalTaskInputs inputs) {
+        !workspaceBuildPath.exists() && workspaceBuildPath.mkdirs()
+//        inputs.outOfDate { change ->
+//            logger.info "outOfDate = ${change}"
+//            project.copy {
+//                from change.file
+//                into workspaceBuildPath
+//            }
+//        }
+//        inputs.removed { change ->
+//            logger.info "removed = ${change}"
+//            change.file.directory ? change.file.deleteDir() : change.file.delete()
+////            project.sync {
+////                from change.file
+////                into workspaceBuildPath
+////            }
+//        }
+
         def extension = getExtension()
         workspaceBuildPath.mkdirs()
-        project.copy {
+        project.sync {
             with extension.jobConfigs
             with extension.classpath
             into workspaceBuildPath
         }
     }
 
-//    @OutputDirectory // Commented as this causes the workspace to never be updated after the first time
+//    @InputFiles
+    def getJobConfigInputFiles() {
+        getAllFilesFromCopySpec(getExtension().jobConfigs) as List
+    }
+
+//    @InputFiles
+    def getClasspathInputFiles() {
+        getAllFilesFromCopySpec(getExtension().classpath) as List
+    }
+
+//    @OutputDirectory
     File getWorkspaceBuildPath() {
         project.file getExtension().workspaceBuildPath
     }

@@ -15,5 +15,9 @@ apply plugin: 'jenkins-jobdsl'
 jenkinsJobDsl {
     jobConfigs {
         from file('project.dsl.groovy')
+        from file('project2.dsl.groovy')
+        from fileTree('jobconfigs') {
+            include '**/*.dsl.groovy'
+        }
     }
 }

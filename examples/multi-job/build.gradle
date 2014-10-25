@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.4'
+        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.6'
     }
 }
 
@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy:2.3.0'
-    compile 'org.jenkins-ci.plugins:job-dsl-core:1.22'
+    compile 'org.codehaus.groovy:groovy:2.3.7'
+    compile 'org.jenkins-ci.plugins:job-dsl-core:1.26'
 
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'

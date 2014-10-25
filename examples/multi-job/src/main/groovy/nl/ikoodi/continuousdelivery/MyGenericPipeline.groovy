@@ -11,4 +11,6 @@ class MyGenericPipeline extends AbstractPipeline {
     MyGenericPipeline(JobConfig config) {
         super(config)
     }
+
+
 }

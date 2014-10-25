@@ -26,6 +26,7 @@ import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
+import static nl.ikoodi.gradle.plugin.jenkins.jobdsl.CommonUtil.getAllFilesFromCopySpec
 import static nl.ikoodi.gradle.plugin.jenkins.jobdsl.JenkinsJobDslPlugin.*
 
 class GenerateConfigsTask extends DefaultTask {
@@ -39,21 +40,19 @@ class GenerateConfigsTask extends DefaultTask {
         processJobDslFiles(pathsToDslFiles)
     }
 
-    @InputDirectory
+//    @InputDirectory
     File getWorkspaceBuildPath() {
         project.file getExtension().workspaceBuildPath
     }
 
-    @OutputDirectory
+//    @OutputDirectory
     File getGeneratedOutputPath() {
         project.file getExtension().generatedOutputPath
     }
 
     private List<File> findPathsToDslFiles(File from) {
         def files = []
-        def dslFiles = project.fileTree(from)
-        dslFiles.include(getExtension().dslFilePattern)
-        dslFiles.files.each { file ->
+        getAllFilesFromCopySpec(getExtension().jobConfigs).each { file ->
             def shortPath = getShortenedPath(file, from)
             logger.info "Adding DSL file [${shortPath}] for processing"
             files.add(file)
@@ -66,6 +65,9 @@ class GenerateConfigsTask extends DefaultTask {
         workspace.mkdirs()
 
         File outputDirectory = getGeneratedOutputPath();
+        if (!outputDirectory.deleteDir()) {
+            throw new RuntimeException("fuck!")
+        }
         outputDirectory.mkdirs()
 
         FileJobManagement jm = createJobManagement(workspace, outputDirectory);
