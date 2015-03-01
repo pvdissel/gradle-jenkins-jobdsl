@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,20 +62,24 @@ class GenerateConfigsTask extends DefaultTask {
     }
 
     private void processJobDslFiles(List<File> scripts) {
-        File workspace = getWorkspaceBuildPath()
-        workspace.mkdirs()
+        File buildWorkspaceOutputDirectory = getWorkspaceBuildPath()
+        buildWorkspaceOutputDirectory.mkdirs()
 
-        File outputDirectory = getGeneratedOutputPath();
-        outputDirectory.mkdirs()
+        File generatedFilesOutputDirectory = getGeneratedOutputPath();
+        generatedFilesOutputDirectory.mkdirs()
 
-        FileJobManagement jm = createJobManagement(workspace, outputDirectory);
+        FileJobManagement jm = createJobManagement(
+                buildWorkspaceOutputDirectory,
+                generatedFilesOutputDirectory,
+                project.projectDir
+        );
         scripts.each { File scriptFile ->
-            processDslScript(jm, workspace, scriptFile)
+            processDslScript(jm, buildWorkspaceOutputDirectory, scriptFile)
         }
     }
 
-    private FileJobManagement createJobManagement(File workspace, File outputDirectory) {
-        def jm = new GradleFileJobManagement(workspace, outputDirectory)
+    private FileJobManagement createJobManagement(File workspace, File outputDirectory, File projectDirectory) {
+        def jm = new GradleFileJobManagement(workspace, outputDirectory, projectDirectory)
         configureJobManagement(jm)
         return jm
     }
