@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.1.4'
+        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.2.0'
     }
 }
 

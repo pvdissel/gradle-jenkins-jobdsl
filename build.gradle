@@ -15,7 +15,3 @@ allprojects {
 File script(String name) {
     project.file("gradle/${name}.gradle")
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
-}
