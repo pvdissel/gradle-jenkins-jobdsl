@@ -73,6 +73,13 @@ class GenerateConfigsTask extends DefaultTask {
                 generatedFilesOutputDirectory,
                 project.projectDir
         );
+
+        Map binding = getExtension().binding
+
+        if (binding) {
+            jm.parameters.putAll(binding)
+        }
+
         scripts.each { File scriptFile ->
             processDslScript(jm, buildWorkspaceOutputDirectory, scriptFile)
         }
