@@ -23,8 +23,10 @@ class JenkinsJobDslPluginExtension {
     public static final String DEFAULT_DSL_FILE_PATTERN = '**/*.dsl.groovy'
     private final Project project
     private String baseOutputPath = new File(project.buildDir, 'jobDsl').absolutePath
+
     final CopySpec jobConfigs
     final CopySpec classpath
+    Map binding = [:]
     String dslFilePattern = DEFAULT_DSL_FILE_PATTERN
     String workspaceBuildPath = new File(baseOutputPath, 'workspace').absolutePath
     String generatedOutputPath = new File(baseOutputPath, 'generated').absolutePath
