@@ -18,6 +18,7 @@ package nl.ikoodi.gradle.plugin.jenkins.jobdsl
 import javaposse.jobdsl.dsl.ConfigurationMissingException
 import javaposse.jobdsl.dsl.FileJobManagement
 import javaposse.jobdsl.dsl.NameNotProvidedException
+import javaposse.jobdsl.dsl.ConfigFileType
 
 class GradleFileJobManagement extends FileJobManagement {
     File outputDirectory
@@ -49,6 +50,11 @@ class GradleFileJobManagement extends FileJobManagement {
     @Override
     String getCredentialsId(String credentialsDescription) {
         return credentialsDescription
+    }
+
+    @Override
+    String getConfigFileId(ConfigFileType type, String name) {
+        return name
     }
 
     @Override
