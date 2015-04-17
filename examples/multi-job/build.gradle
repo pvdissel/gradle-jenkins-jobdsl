@@ -1,16 +1,7 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'nl.ikoodi.gradle.plugin:gradle-jenkins-jobdsl:0.2.0'
-    }
+plugins {
+    id 'groovy'
+    id 'nl.ikoodi.jenkins.jobdsl' version '0.4.1'
 }
-
-apply plugin: 'groovy'
-apply plugin: 'jenkins-jobdsl'
 
 repositories {
     jcenter()
@@ -18,7 +9,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy:2.3.0'
-    compile 'org.jenkins-ci.plugins:job-dsl-core:1.22'
+    compile 'org.jenkins-ci.plugins:job-dsl-core:1.28'
 
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
