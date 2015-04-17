@@ -1,7 +1,6 @@
-buildscript {
-    apply from: file('gradle/buildscript.gradle'), to: buildscript
+plugins {
+    id "com.github.hierynomus.license" version "0.11.0"
 }
-apply from: script('license')
 
 description 'Jenkins JobDSL plugin for Gradle'
 

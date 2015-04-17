@@ -1,45 +1,51 @@
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
+plugins {
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.0'
+    id "com.github.ben-manes.versions" version "0.8"
+}
+
+ext {
+    libraries = [:]
+    versions = [:]
+}
+
+versions += [
+        spock        : '1.0-groovy-2.3',
+        jenkinsJobDsl: '1.28',
+]
+
+libraries += [
+        jenkinsJobDsl: "org.jenkins-ci.plugins:job-dsl-core:${versions.jenkinsJobDsl}",
+        logging      : 'ch.qos.logback:logback-classic:1.1.2',
+        spock        : "org.spockframework:spock-core:${versions.spock}",
+        spockDeps    : [
+                'org.objenesis:objenesis:2.1',
+                'cglib:cglib-nodep:3.1',
+        ],
+]
 
 dependencies {
     compile gradleApi()
-    compile 'org.codehaus.groovy:groovy:2.3.0'
-    compile 'org.jenkins-ci.plugins:job-dsl-core:1.26'
+    compile localGroovy()
+    compile libraries.jenkinsJobDsl
 
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
-        exclude module: 'groovy-all'
+    testCompile(libraries.spock) {
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
+    testCompile libraries.spockDeps
 }
 
-apply from: script('publishing')
+pluginBundle {
+    website = 'https://github.com/pvdissel/gradle-jenkins-jobdsl'
+    vcsUrl = 'https://github.com/pvdissel/gradle-jenkins-jobdsl'
+    description = 'A Gradle plugin that let\'s you build and generate your Jenkins JobDSL scripts'
+    tags = ['jenkins', 'jobdsl']
 
-archivesBaseName = "${rootProject.name}"
-
-publishing {
-    publications {
-        main(MavenPublication) {
-            artifactId project.archivesBaseName
+    plugins {
+        jenkinsJobDsl {
+            id = 'nl.ikoodi.jenkins.jobdsl'
+            displayName = 'Gradle Jenkins JobDSL Plugin'
         }
     }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc.outputs.files
-}
-
-task groovydocJar(type: Jar) {
-    classifier = 'groovydoc'
-    from groovydoc.outputs.files
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-    archives groovydocJar
 }
